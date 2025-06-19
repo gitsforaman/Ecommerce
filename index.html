@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="TaskCart Pro - Modern eCommerce platform for electronics, wearables, and accessories.">
+  <meta name="keywords" content="eCommerce, shopping, TaskCart, products">
+  <title>TaskCart Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
+      color: #2d2d2d;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: linear-gradient(90deg, #7c3aed, #3b82f6);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/subtle-white-feathers.png');
+      opacity: 0.1;
+      z-index: -1;
+    }
+
+    section {
+      padding: 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: #7c3aed;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .filters {
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filters input, .filters select {
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      transition: border-color 0.3s ease;
+    }
+
+    .filters input:focus, .filters select:focus {
+      border-color: #7c3aed;
+      outline: none;
+      box-shadow: 0 0 8px rgba(124, 58, 237, 0.3);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .product {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      padding: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.2);
+    }
+
+    .product img {
+      width: 100%;
+      height: 45%;
+      object-fit: fill;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .product:hover img {
+      transform: scale(1.05);
+    }
+
+    .product h2 {
+      margin: 0.8rem 0 0.4rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+
+    .product p {
+      font-weight: 700;
+      color: #7c3aed;
+      font-size: 1.1rem;
+    }
+
+    .rating {
+      font-size: 0.95rem;
+      color: #eab308;
+      margin: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .rating i {
+      font-size: 1rem;
+    }
+
+    .product button {
+      width: 100%;
+      background: linear-gradient(90deg, #7c3aed, #3b82f6);
+      color: white;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 0.8rem;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .product button::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s ease, height 0.4s ease;
+    }
+
+    .product button:hover::after {
+      width: 300px;
+      height: 300px;
+    }
+
+    .product button:hover {
+      transform: scale(1.05);
+    }
+
+    .cart-section {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      padding: 2rem;
+      margin-top: 2.5rem;
+      position: relative;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .cart-header .item-count {
+      background: #7c3aed;
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .cart-list {
+      list-style: none;
+    }
+
+    .cart-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: #f9fafb;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      animation: cartItemFadeIn 0.3s ease;
+      transition: transform 0.2s ease;
+    }
+
+    @keyframes cartItemFadeIn {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .cart-list li.remove {
+      animation: shake 0.3s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .cart-list .item-details {
+      flex: 1;
+      font-size: 1rem;
+      color: #2d2d2d;
+      font-weight: 500;
+    }
+
+    .cart-list .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cart-list .quantity-controls button {
+      background: linear-gradient(90deg, #7c3aed, #3b82f6);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-list .quantity-controls button:hover {
+      background: linear-gradient(90deg, #6d28d9, #2563eb);
+      transform: scale(1.1);
+    }
+
+    .cart-list .quantity-controls span {
+      font-weight: 600;
+      color: #7c3aed;
+      width: 30px;
+      text-align: center;
+    }
+
+    .cart-list .remove-btn {
+      color: #ef4444;
+      font-size: 1.2rem;
+      transition: color 0.2s ease;
+    }
+
+    .cart-list .remove-btn:hover {
+      color: #dc2626;
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: linear-gradient(90deg, #7c3aed, #3b82f6);
+      color: white;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    .coupon-section {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+
+    .coupon-section input {
+      flex: 3;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      transition: border-color 0.3s ease;
+    }
+
+    .coupon-section input:focus {
+      border-color: #7c3aed;
+      outline: none;
+      box-shadow: 0 0 8px rgba(124, 58, 237, 0.3);
+    }
+
+    .coupon-section button {
+      flex: 1;
+      background: linear-gradient(90deg, #7c3aed, #3b82f6);
+      color: white;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+    }
+
+    .coupon-section button:hover {
+      transform: scale(1.05);
+    }
+
+    .coupon-section .error-message {
+      display: none;
+      color: #ef4444;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      width: 100%;
+    }
+
+    .clear-cart-btn, .whatsapp-order-btn {
+      background: linear-gradient(90deg, #ef4444, #dc2626);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 1rem;
+      transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .whatsapp-order-btn {
+      background: linear-gradient(90deg, #25D366, #128C7E);
+    }
+
+    .clear-cart-btn:hover, .whatsapp-order-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 2rem;
+      color: #6b7280;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .empty-cart a {
+      color: #7c3aed;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .empty-cart a:hover {
+      text-decoration: underline;
+    }
+
+    input, button, textarea, select {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: #7c3aed;
+      outline: none;
+      box-shadow: 0 0 8px rgba(124, 58, 237, 0.3);
+    }
+
+    .admin-btn {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(90deg, #7c3aed, #3b82f6);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      z-index: 1000;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .admin-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-content {
+      background: white;
+      padding: 3rem;
+      border-radius: 12px;
+      max-width: 700px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      transform: scale(0.95);
+      animation: popUp 0.3s ease forwards;
+    }
+
+    @keyframes popUp {
+      to { transform: scale(1); }
+    }
+
+    #reviewModal textarea, #descModal textarea {
+      resize: vertical;
+      min-height: 100px;
+      margin-top: 0.75rem;
+    }
+
+    #reviewModal select, #descModal select {
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      margin-top: 0.75rem;
+      width: 100%;
+    }
+
+    #descModal .modal-content {
+      max-width: 700px;
+    }
+
+    #descModal img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1.2rem;
+    }
+
+    .spinner {
+      display: none;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #7c3aed;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      margin: 0.5rem auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #10b981;
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 1002;
+      display: none;
+      animation: slideInToast 0.3s ease;
+    }
+
+    .toast.error {
+      background: #ef4444;
+    }
+
+    @keyframes slideInToast {
+      from { opacity: 0; transform: translateX(100%); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    .error {
+      border-color: #ef4444 !important;
+    }
+
+    .image-preview {
+      margin-top: 1rem;
+      max-width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+
+    .coupon-list {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .coupon-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem;
+      background: #f9fafb;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+
+    .coupon-list li button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.5rem;
+      transition: color 0.2s ease;
+    }
+
+    .coupon-list li button:hover {
+      color: #7c3aed;
+    }
+
+    footer {
+      text-align: center;
+      background: linear-gradient(90deg, #1e3a8a, #1e40af);
+      color: white;
+      padding: 1.5rem;
+      margin-top: 3rem;
+      font-weight: 500;
+    }
+
+    @media(max-width: 768px) {
+      .product-grid { grid-template-columns: 1fr; }
+      header { font-size: 1.5rem; padding: 1.5rem; }
+      section { padding: 1.5rem; }
+      .filters { flex-direction: column; }
+      .filters input, .filters select { width: 100%; }
+      .admin-btn { bottom: 20px; left: 20px; width: 45px; height: 45px; }
+      .cart-list li { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .cart-list .quantity-controls { justify-content: flex-end; width: 100%; }
+      .form-actions { flex-direction: column; }
+      .modal-content {
+        max-width: 90%;
+        padding: 2rem;
+      }
+      .coupon-section { flex-direction: row; }
+      .coupon-section input { flex: 3; }
+      .coupon-section button { flex: 1; }
+    }
+
+    @media(max-width: 480px) {
+      .product { padding: 1rem; }
+      .product img { height: 180px; }
+      .modal-content {
+        padding: 1.5rem;
+        max-width: 95%;
+      }
+      .cart-list li { padding: 0.75rem; }
+      .toast { width: 90%; right: 5%; }
+      .coupon-section { flex-direction: column; }
+      .coupon-section input, .coupon-section button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<header>🛍️ Krishna Collections & Cosmetice Center – Modern eCommerce</header>
+
+<section>
+  <h2 class="section-title"><i class="fas fa-shopping-bag"></i> Product Catalog</h2>
+  <div class="filters">
+    <input type="text" id="searchInput" placeholder="Search products..." oninput="applyFilters()" aria-label="Search products">
+    <select id="categoryFilter" onchange="applyFilters()" aria-label="Filter by category">
+      <option value="">All Categories</option>
+    </select>
+  </div>
+  <div class="spinner" id="productSpinner"></div>
+  <div class="product-grid" id="productCatalog"></div>
+</section>
+
+<section class="cart-section">
+  <div class="cart-header">
+    <h2 class="section-title"><i class="fas fa-shopping-cart"></i> Your Cart <span class="item-count" id="cartCount">0</span></h2>
+    <button class="clear-cart-btn" onclick="clearCart()" style="display: none;" id="clearCartBtn"><i class="fas fa-trash-alt"></i> Clear Cart</button>
+  </div>
+  <ul class="cart-list" id="cartItems"></ul>
+  <div class="coupon-section">
+    <input type="text" id="couponInput" placeholder="Enter coupon code" aria-label="Coupon code">
+    <button onclick="applyCoupon()"><i class="fas fa-ticket-alt"></i> Apply</button>
+    <span class="error-message" id="couponError">Invalid coupon code</span>
+  </div>
+  <div class="cart-total" id="cartTotalSection" style="display: none;">
+    <span>Subtotal:</span>
+    <span>₹<span id="cartSubtotal">0</span></span>
+  </div>
+  <div class="cart-total" id="cartDiscountSection" style="display: none;">
+    <span>Discount:</span>
+    <span>-₹<span id="cartDiscount">0</span></span>
+  </div>
+  <div class="cart-total" id="cartFinalTotalSection" style="display: none;">
+    <span>Total:</span>
+    <span>₹<span id="cartTotal">0</span></span>
+  </div>
+  <button class="whatsapp-order-btn" onclick="sendOrderToWhatsApp()" style="display: none;" id="whatsappOrderBtn"><i class="fab fa-whatsapp"></i> Order via WhatsApp</button>
+  <div class="empty-cart" id="emptyCartMessage">
+    <p>Your cart is empty! <a href="#productCatalog">Start shopping now.</a></p>
+  </div>
+</section>
+
+<footer>© 2025 KCCC | Built with ❤️ by Aman Srivastava</footer>
+
+<button class="admin-btn" onclick="openModal()" title="Admin" aria-label="Open admin panel"><i class="fas fa-lock"></i></button>
+
+<div class="modal" id="adminModal" role="dialog" aria-labelledby="modalTitle">
+  <div class="modal-content" id="modalContent">
+    <h3 id="modalTitle">Enter Admin Passcode</h3>
+    <input type="password" id="passInput" placeholder="Passcode" aria-label="Admin passcode"/>
+    <button onclick="verifyPasscode()"><i class="fas fa-sign-in-alt"></i> Submit</button>
+    <button onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<div class="modal" id="reviewModal" role="dialog" aria-labelledby="reviewProductName">
+  <div class="modal-content">
+    <h3 id="reviewProductName">Add Review</h3>
+    <select id="reviewRating" required aria-label="Select rating">
+      <option value="">Select Rating</option>
+      <option value="1">1 ⭐</option>
+      <option value="2">2 ⭐</option>
+      <option value="3">3 ⭐</option>
+      <option value="4">4 ⭐</option>
+      <option value="5">5 ⭐</option>
+    </select>
+    <textarea id="reviewText" placeholder="Your review..." rows="4" aria-label="Review text"></textarea>
+    <button onclick="submitReview()"><i class="fas fa-star"></i> Submit</button>
+    <button onclick="closeReviewModal()">Cancel</button>
+  </div>
+</div>
+
+<div class="modal" id="descModal" role="dialog" aria-labelledby="descProductName">
+  <div class="modal-content">
+    <h3 id="descProductName">Product Details</h3>
+    <img id="descProductImage" src="" alt="Product Image" />
+    <p><strong>Price:</strong> ₹<span id="descProductPrice"></span></p>
+    <p><strong>Category:</strong> <span id="descProductCategory"></span></p>
+    <p><strong>Description:</strong></p>
+    <textarea id="descProductDesc" readonly aria-label="Product description"></textarea>
+    <div id="productReviews"></div>
+    <button onclick="closeDescModal()">Close</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // Hardcoded for demo; in production, use server-side authentication
+  const PASSCODE_HASH = "e8c7e0e4b6e4d6e8e4e4b6e4d6e8e4e4b6e4d6e8"; // Mock hash
+  const defaultProducts = [
+    { id: 1, name: "Joy - Honey & Almond", category: "Face Cream", price: 8, description: "A compact and travel-friendly moisturizer enriched with the goodness of natural honey and almond oil. This cream deeply nourishes and hydrates your skin, leaving it soft, smooth, and radiant. Ideal for daily use and suitable for all skin types.", image: "https://n2.sdlcdn.com/imgs/i/s/p/Joy-Honey-Almonds-Nourishing-Skin-SDL753942812-1-ba3c9.jpg" },
+    { id: 2, name: "Joy Skin Fruit Cream", category: "Face Cream", price: 8, description: "A refreshing moisturizer enriched with natural fruit extracts that nourish, hydrate, and rejuvenate your skin. This lightweight cream absorbs easily, leaving your skin soft, glowing, and healthy-looking.", image: "https://rukminim2.flixcart.com/image/832/832/xif0q/moisturizer-cream/2/l/3/800-skin-fruits-fruit-moisturizing-skin-cream-joy-cream-original-imah4m8wkwsyhwtr.jpeg?q=70&crop=false" },
+    { id: 3, name: "Lakme 9to5 Fashion Matt Lipstick", category: "Lipsticks", price: 150, description: "A long‑wearing liquid matte with built‑in lip primer—delivers a smooth, crease‑free matte finish that lasts up to 14 hours. Lightweight, non‑sticky, enriched with Vitamin E and Argan oil to keep lips soft and nourished.", image: "https://cdn.fcglcdn.com/brainbees/images/products/zoom/11765982a.webp" },
+    { id: 4, name: "White Tone Powder", category: "Powder", price: 55, description: "An ultra-fine talcum-based finishing powder that instantly brightens and evens out your complexion. It absorbs excess oil, minimizes pores and fine lines, and leaves a silky, matte finish with a light, fresh fragrance. Suitable for both men and women, ideal for quick touch-ups throughout the day.", image: "https://th.bing.com/th/id/OIP.ZeBhSHIog317jApS9NNIbwHaHa?rs=1&pid=ImgDetMain&cb=idpwebpc2" },
+    { id: 5, name: "Blue Valley - Hair Removal Cream", category: "Body Essentials", price: 35, description: "A quick-action depilatory cream for men and women that removes unwanted hair in just 3–6 minutes. Enriched with soothing Aloe Vera, Vitamin E, and chamomile or shea butter (depending on variant) to moisturize and calm skin, it delivers a smooth, irritation-free finish—ideal for arms, legs, underarms, bikini area, and full body", image: "https://5.imimg.com/data5/ECOM/Default/2023/9/343841953/XN/CW/VK/35312070/1691076512994-sku-0340-0-500x500.jpg" },
+    { id: 6, name: "Veet - Body Wax Strips", category: "Body Essentials", price: 90, description: "Ready‑to‑use cold wax strips for arms, legs, underarms, and bikini line—remove hair as short as 1.5 mm and leave skin smooth for up to 28 days. No heating, no mess; pre-coated strips with an Easy‑Grip™ tab and finishing wipes for clean removal.", image: "https://www.netmeds.com/images/product-v1/600x600/1155347/veet_professional_half_body_wax_strips_normal_skin_8s_with_perfect_finishing_2_s_796794_0_0.jpg" },
+    { id: 7, name: "Oxylife - Bleach Cream", category: "Face Cream", price: 48, description: "A fast-acting facial bleach using patented “Oxysphere” German technology to release active oxygen during application. It gently lightens facial hair and addresses five skincare concerns—dark spots, uneven tone, sun tan, dead skin cells, and dullness—while being enriched with soothing ingredients like Vitamin E, glycerine, aloe vera, and post-bleach serum for nourished, radiant skin in just ~15 minutes.", image: "https://images-na.ssl-images-amazon.com/images/I/71zcfXylNYL._SX679_.jpg" },
+    { id: 8, name: "Fair & Lovely - BB Cream", category: "Face Cream", price: 45, description: "A lightweight BB cream that blends skincare and makeup—delivers a natural glow, medium coverage for dark spots and blemishes, a matte non‑oily finish, and SPF 15 protection. Suitable for daily wear across skin types.", image: "https://th.bing.com/th/id/R.9c288eaf5202bff13b0c495292e6d398?rik=PxIuy6IrghWAkg&riu=http%3a%2f%2fkartwalk.in%2fcdn%2fshop%2fproducts%2fUntitled-17_8c46cffb-80bf-44b8-b319-425e0c2dbf8d.png%3fv%3d1708633533&ehk=GEY36R4%2f5Ri8I%2bA8xed1FlX7HhVjTYq%2fHOOjfZlTYk8%3d&risl=&pid=ImgRaw&r=0" },
+    { id: 9, name: "Garnier Cream", category: "Face Cream", price: 100, description: "A lightweight, non-greasy face moisturizer enriched with grapefruit water and vitamin E & B5. Delivers 24‑hour hydration, absorbs quickly into skin, and is dermatologically tested—suitable for all skin types.", image: "https://m.media-amazon.com/images/I/51UQbNeJRZL.jpg" },
+    { id: 10, name: "Lakme 9to5 Matte Lapstick", category: "Lipsticks", price: 150, description: "A creamy matte lipstick with a built-in primer giving intense color payoff in one swipe, a satin‑smooth finish, and up to 14 hours of wear. Enriched with jojoba oil, olive oil, Vitamin E and SPF 15, it's comfortable, non‑drying, and perfect for work-to-weekend wear.", image: "https://th.bing.com/th/id/R.3e90195ad6da426cba2795a36d6bd63a?rik=DvQfcEY0ROAd9Q&riu=http%3a%2f%2fdazzlinggloss.co.za%2fcdn%2fshop%2fproducts%2fberrybase2.jpg%3fv%3d1675793774&ehk=jG1iKzwBw2vfj94q7SYPlXHRKhgk38ALAPN2Vj7Ulrw%3d&risl=&pid=ImgRaw&r=0" },
+    { id: 11, name: "Max Women’s Body Razor", category: "Body Essentials", price: 15, description: "A single-blade, disposable body and bikini razor designed for women’s grooming. Features an ergonomic handle, platinum-coated stainless steel blade, and a protective comb to help guide hair while minimizing irritation. Safe, precise, and ideal for underarms, legs, and bikini areas", image: "https://5.imimg.com/data5/SELLER/Default/2021/9/EX/PP/PK/90321857/1-500x500.jpg" },
+    { id: 12, name: "Nature's Soft Touch - Hair Removal Cream", category: "Body Essentials", price: 40, description: "A fast-acting depilatory cream (3–6 min) that removes even thick hair, leaving skin silky smooth for days. Enriched with glycerin plus variations like Aloe Vera, Diamond sparkle, or Gold for added glow and moisture. Safe for arms, legs, underarms, bikini line, and stomach, with antiseptic, soothing properties for all skin types.", image: "https://media6.ppl-media.com/tr:h-750,w-750,c-at_max,dpr-2/static/img/product/324087/nature-s-essence-soft-touch-hair-removal-cream-diamond-50-g-93_1_display_1689162936_4d7769a3.jpg" },
+    { id: 13, name: "Ayur Herbal - Deep Pore Cleansing Milk", category: "Face Cream", price: 55, description: "A gentle, herbal cleansing milk infused with aloe vera, cucumber, and rose extracts. It deeply removes dirt, makeup, and impurities while soothing and refreshing normal to oily skin—leaving it clean, soft, and radiant.", image: "https://m.media-amazon.com/images/I/41CLGxhPGsL._SL1000_.jpg" },
+    { id: 14, name: "Ayur Herbal - Skin Toner", category: "Face Cream", price: 65, description: "An alcohol-free, herbal toner with aloe vera, rose water, and mint extracts. It hydrates, balances pH, tightens pores, and soothes skin—offering a refreshing, cooling cleanse suitable for all skin types.", image: "https://m.media-amazon.com/images/I/61gnt77TNWL._SL1000_.jpg" },
+    { id: 15, name: "Saree Fall - Cotton", category: "Clothing", price: 12, description: "A strip of sturdy cotton (or terry-cotton), typically 5 cm wide and ~2–2.5 m long, stitched along the saree’s inner hem. It adds weight for graceful drape, prevents transparency and tear-through, and protects the saree edge from wear and tear.", image: "https://images.herzindagi.info/image/2022/Dec/saree-fall.jpg" },
+  ];
+
+  let products = [], cart = [], appliedCoupon = null;
+  let coupons = JSON.parse(localStorage.getItem("taskbotCoupons")) || {
+    "SAVE10": 0.10, // 10% discount
+    "SAVE20": 0.20, // 20% discount
+    "FLAT100": 100 // Flat ₹100 discount
+  };
+
+  function saveCoupons() {
+    localStorage.setItem("taskbotCoupons", JSON.stringify(coupons));
+  }
+
+  function showToast(message, isError = false) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.className = `toast ${isError ? 'error' : ''}`;
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 3000);
+  }
+
+  function sanitizeInput(input) {
+    const div = document.createElement('div');
+    div.textContent = input;
+    return div.innerHTML;
+  }
+
+  function getUserLocation() {
+    return new Promise((resolve) => {
+      if (!navigator.geolocation) {
+        showToast("Geolocation is not supported by your browser", true);
+        resolve("");
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+          resolve(`Location: ${mapsUrl}`);
+        },
+        (error) => {
+          let errorMessage = "Unable to retrieve location";
+          if (error.code === error.PERMISSION_DENIED) {
+            errorMessage = "Location access denied";
+          } else if (error.code === error.POSITION_UNAVAILABLE) {
+            errorMessage = "Location information unavailable";
+          } else if (error.code === error.TIMEOUT) {
+            errorMessage = "Location request timed out";
+          }
+          showToast(errorMessage, true);
+          resolve("");
+        },
+        { timeout: 10000 }
+      );
+    });
+  }
+
+  function loadProducts() {
+    const spinner = document.getElementById("productSpinner");
+    spinner.style.display = "block";
+    setTimeout(() => {
+      const local = JSON.parse(localStorage.getItem("taskbotProducts")) || [];
+      products = [...defaultProducts, ...local];
+      renderCategoryOptions();
+      applyFilters();
+      spinner.style.display = "none";
+    }, 500);
+  }
+
+  function loadCart() {
+    cart = JSON.parse(localStorage.getItem("taskbotCart")) || [];
+    appliedCoupon = JSON.parse(localStorage.getItem("taskbotCoupon")) || null;
+    renderCart();
+  }
+
+  function saveCart() {
+    localStorage.setItem("taskbotCart", JSON.stringify(cart));
+    localStorage.setItem("taskbotCoupon", JSON.stringify(appliedCoupon));
+  }
+
+  function renderCategoryOptions() {
+    const categories = [...new Set(products.map(p => p.category || "Others"))];
+    const select = document.getElementById("categoryFilter");
+    select.innerHTML = '<option value="">All Categories</option>' + categories.map(c => `<option value="${c}">${c}</option>`).join('');
+  }
+
+  function applyFilters() {
+    const search = sanitizeInput(document.getElementById("searchInput").value.toLowerCase());
+    const category = document.getElementById("categoryFilter").value;
+    const filtered = products.filter(p => {
+      return (!category || p.category === category) && p.name.toLowerCase().includes(search);
+    });
+    renderProducts(filtered);
+  }
+
+  function renderProducts(data = products) {
+    const catalog = document.getElementById("productCatalog");
+    catalog.innerHTML = data.map(p => {
+      const reviews = JSON.parse(localStorage.getItem(`reviews_${p.id}`)) || [];
+      const avgRating = reviews.length ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1) : "No ratings";
+      return `
+        <div class="product">
+          <img src="${p.image}" alt="${p.name}" />
+          <h2>${p.name}</h2>
+          <p>₹${p.price}</p>
+          <div class="rating"><i class="fas fa-star"></i> ${avgRating} (${reviews.length} reviews)</div>
+          <button onclick="addToCart(${p.id})"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+          <button onclick="openReviewModal(${p.id})"><i class="fas fa-star"></i> Add Review</button>
+          <button onclick="openDescModal(${p.id})"><i class="fas fa-eye"></i> View Details</button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function addToCart(id) {
+    const item = products.find(p => p.id === id);
+    const cartItem = cart.find(c => c.product.id === id);
+    if (cartItem) {
+      cartItem.quantity += 1;
+    } else {
+      cart.push({ product: item, quantity: 1 });
+    }
+    saveCart();
+    renderCart();
+    showToast(`Added ${item.name} to cart!`);
+  }
+
+  function applyCoupon() {
+    const couponCode = sanitizeInput(document.getElementById("couponInput").value.trim().toUpperCase());
+    const couponError = document.getElementById("couponError");
+
+    if (!couponCode) {
+      couponError.textContent = "Please enter a coupon code";
+      couponError.style.display = "block";
+      document.getElementById("couponInput").classList.add("error");
+      return;
+    }
+
+    if (coupons[couponCode]) {
+      appliedCoupon = { code: couponCode, discount: coupons[couponCode] };
+      document.getElementById("couponInput").classList.remove("error");
+      couponError.style.display = "none";
+      showToast(`Coupon ${couponCode} applied!`);
+      saveCart();
+      renderCart();
+    } else {
+      couponError.textContent = "Invalid coupon code";
+      document.getElementById("couponInput").classList.add("error");
+      showToast("Invalid coupon code", true);
+    }
+  }
+
+  function calculateCartTotals() {
+    const subtotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+    let discount = 0;
+    if (appliedCoupon) {
+      if (typeof appliedCoupon.discount === "number" && appliedCoupon.discount < 1) {
+        discount = subtotal * appliedCoupon.discount; // Percentage discount
+      } else {
+        discount = Math.min(appliedCoupon.discount, subtotal); // Flat discount
+      }
+    }
+    const total = subtotal - discount;
+    return { subtotal, discount, total };
+  }
+
+  function renderCart() {
+    const cartItems = document.getElementById("cartItems");
+    const cartCount = document.getElementById("cartCount");
+    const cartSubtotal = document.getElementById("cartSubtotal");
+    const cartDiscount = document.getElementById("cartDiscount");
+    const cartTotal = document.getElementById("cartTotal");
+    const cartTotalSection = document.getElementById("cartTotalSection");
+    const cartDiscountSection = document.getElementById("cartDiscountSection");
+    const cartFinalTotalSection = document.getElementById("cartFinalTotalSection");
+    const emptyCartMessage = document.getElementById("emptyCartMessage");
+    const clearCartBtn = document.getElementById("clearCartBtn");
+    const whatsappOrderBtn = document.getElementById("whatsappOrderBtn");
+
+    if (cart.length === 0) {
+      cartItems.innerHTML = '';
+      emptyCartMessage.style.display = 'block';
+      cartTotalSection.style.display = 'none';
+      cartDiscountSection.style.display = 'none';
+      cartFinalTotalSection.style.display = 'none';
+      clearCartBtn.style.display = 'none';
+      whatsappOrderBtn.style.display = 'none';
+      cartCount.textContent = '0';
+      cartSubtotal.textContent = '0';
+      cartDiscount.textContent = '0';
+      cartTotal.textContent = '0';
+      document.getElementById("couponInput").value = '';
+      appliedCoupon = null;
+      saveCart();
+      return;
+    }
+
+    emptyCartMessage.style.display = 'none';
+    cartTotalSection.style.display = 'flex';
+    cartDiscountSection.style.display = appliedCoupon ? 'flex' : 'none';
+    cartFinalTotalSection.style.display = 'flex';
+    clearCartBtn.style.display = 'flex';
+    whatsappOrderBtn.style.display = 'flex';
+    cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    cartItems.innerHTML = cart.map((item, i) => `
+      <li>
+        <span class="item-details">${item.product.name} - ₹${item.product.price} x ${item.quantity}</span>
+        <div class="quantity-controls">
+          <button onclick="updateQuantity(${i}, -1)" aria-label="Decrease quantity"><i class="fas fa-minus"></i></button>
+          <span>${item.quantity}</span>
+          <button onclick="updateQuantity(${i}, 1)" aria-label="Increase quantity"><i class="fas fa-plus"></i></button>
+          <button class="remove-btn" onclick="removeItem(${i})" aria-label="Remove item"><i class="fas fa-trash"></i></button>
+        </div>
+      </li>
+    `).join('');
+
+    const { subtotal, discount, total } = calculateCartTotals();
+    cartSubtotal.textContent = subtotal.toFixed(2);
+    cartDiscount.textContent = discount.toFixed(2);
+    cartTotal.textContent = total.toFixed(2);
+  }
+
+  function updateQuantity(index, change) {
+    cart[index].quantity += change;
+    if (cart[index].quantity < 1) {
+      removeItem(index);
+    } else {
+      saveCart();
+      renderCart();
+    }
+  }
+
+  function removeItem(i) {
+    const item = document.querySelector(`#cartItems li:nth-child(${i + 1})`);
+    const itemName = cart[i].product.name;
+    if (item) {
+      item.classList.add('remove');
+      setTimeout(() => {
+        cart.splice(i, 1);
+        saveCart();
+        renderCart();
+        showToast(`Removed ${itemName} from cart!`);
+      }, 300);
+    } else {
+      cart.splice(i, 1);
+      saveCart();
+      renderCart();
+      showToast(`Removed ${itemName} from cart!`);
+    }
+  }
+
+  function clearCart() {
+    if (confirm('Are you sure you want to clear your cart?')) {
+      cart = [];
+      appliedCoupon = null;
+      saveCart();
+      renderCart();
+      showToast('Cart cleared!');
+    }
+  }
+
+  async function sendOrderToWhatsApp() {
+    if (cart.length === 0) {
+      showToast("Your cart is empty!", true);
+      return;
+    }
+
+    const phoneNumber = "+918604966546"; // Replace with your WhatsApp number
+    const orderDetails = cart.map(item => `${item.product.name} (Qty: ${item.quantity}, Price: ₹${item.product.price * item.quantity})`).join('\n');
+    const { subtotal, discount, total } = calculateCartTotals();
+    const location = await getUserLocation();
+    const couponInfo = appliedCoupon ? `\nCoupon Applied: ${appliedCoupon.code} (-₹${discount.toFixed(2)})` : '';
+    const message = `New Order:\n\n${orderDetails}\n\nSubtotal: ₹${subtotal.toFixed(2)}${couponInfo}\nTotal: ₹${total.toFixed(2)}${location ? `\n\n${location}` : ''}`;
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, '_blank');
+    showToast("Order sent to WhatsApp!");
+    cart = [];
+    appliedCoupon = null;
+    saveCart();
+    renderCart();
+  }
+
+  function openReviewModal(productId) {
+    const product = products.find(p => p.id === productId);
+    currentReviewProductId = productId;
+    document.getElementById("reviewProductName").textContent = `Review ${product.name}`;
+    document.getElementById("reviewModal").style.display = "flex";
+    document.getElementById("reviewRating").focus();
+  }
+
+  function closeReviewModal() {
+    document.getElementById("reviewModal").style.display = "none";
+    document.getElementById("reviewRating").value = "";
+    document.getElementById("reviewText").value = "";
+  }
+
+  function submitReview() {
+    const rating = parseInt(document.getElementById("reviewRating").value);
+    const text = sanitizeInput(document.getElementById("reviewText").value.trim());
+
+    if (!rating) {
+      showToast("Please select a rating", true);
+      return;
+    }
+
+    const review = { rating, text, date: new Date().toISOString() };
+    const reviews = JSON.parse(localStorage.getItem(`reviews_${currentReviewProductId}`)) || [];
+    reviews.push(review);
+    localStorage.setItem(`reviews_${currentReviewProductId}`, JSON.stringify(reviews));
+
+    showToast("Review submitted!");
+    closeReviewModal();
+    renderProducts();
+  }
+
+  function openDescModal(productId) {
+    const product = products.find(p => p.id === productId);
+    const reviews = JSON.parse(localStorage.getItem(`reviews_${productId}`)) || [];
+    document.getElementById("descProductName").textContent = product.name;
+    document.getElementById("descProductImage").src = product.image;
+    document.getElementById("descProductImage").alt = product.name;
+    document.getElementById("descProductPrice").textContent = product.price;
+    document.getElementById("descProductCategory").textContent = product.category || "Others";
+    document.getElementById("descProductDesc").value = product.description || "";
+    document.getElementById("productReviews").innerHTML = reviews.length
+      ? `<p><strong>Reviews:</strong></p>${reviews.map(r => `<p><strong>${r.rating} ⭐</strong>: ${r.text} <em>(${new Date(r.date).toLocaleDateString()})</em></p>`).join('')}`
+      : '<p><strong>Reviews:</strong> No reviews yet.</p>';
+    document.getElementById("descModal").style.display = "flex";
+  }
+
+  function closeDescModal() {
+    document.getElementById("descModal").style.display = "none";
+  }
+
+  function openModal() {
+    document.getElementById("adminModal").style.display = "flex";
+    document.getElementById("passInput").focus();
+  }
+
+  function closeModal() {
+    document.getElementById("adminModal").style.display = "none";
+    document.getElementById("modalContent").innerHTML = `
+      <h3 id="modalTitle">Enter Admin Passcode</h3>
+      <input type="password" id="passInput" placeholder="Passcode" aria-label="Admin passcode"/>
+      <button onclick="verifyPasscode()"><i class="fas fa-sign-in-alt"></i> Submit</button>
+      <button onclick="closeModal()">Cancel</button>
+    `;
+  }
+
+  function verifyPasscode() {
+    const pass = document.getElementById("passInput").value;
+    if (pass === "1350") { // Temporary for demo
+      showAdminDashboard();
+    } else {
+      showToast("Wrong passcode", true);
+    }
+  }
+
+  function showAdminDashboard() {
+    document.getElementById("modalContent").innerHTML = `
+      <h3 id="modalTitle">Admin Dashboard</h3>
+      <div class="form-group">
+        <button onclick="showAddProductForm()"><i class="fas fa-box"></i> Manage Products</button>
+        <button onclick="showManageCouponsForm()"><i class="fas fa-ticket-alt"></i> Manage Coupons</button>
+      </div>
+      <button onclick="closeModal()">Cancel</button>
+    `;
+  }
+
+  function showAddProductForm() {
+    const categories = [...new Set(products.map(p => p.category || "Others"))];
+    document.getElementById("modalContent").innerHTML = `
+      <h3 id="modalTitle">Manage Products</h3>
+      <div class="form-group">
+        <h4>Add New Product</h4>
+        <div class="form-group">
+          <input type="text" id="prodName" placeholder="Product Name" aria-label="Product Name" required/>
+          <span class="error-message" id="nameError">Please enter a product name</span>
+        </div>
+        <div class="form-group">
+          <select id="prodCategory" aria-label="Category">
+            <option value="">Select or Enter Category</option>
+            ${categories.map(c => `<option value="${c}">${c}</option>`).join('')}
+            <option value="new">Add New Category</option>
+          </select>
+          <input type="text" id="newCategory" placeholder="New Category Name" style="display: none;" aria-label="New Category"/>
+          <span class="error-message" id="categoryError">Please select or enter a category</span>
+        </div>
+        <div class="form-group">
+          <input type="number" id="prodPrice" placeholder="Price (₹)" min="1" aria-label="Price" required/>
+          <span class="error-message" id="priceError">Please enter a valid price (positive number)</span>
+        </div>
+        <div class="form-group">
+          <textarea id="prodDesc" placeholder="Product Description" rows="4" aria-label="Product Description"></textarea>
+        </div>
+        <div class="form-group">
+          <input type="text" id="prodImage" placeholder="Image URL (optional)" aria-label="Image URL" oninput="previewImage()"/>
+          <span class="error-message" id="imageUrlError">Please enter a valid image URL</span>
+        </div>
+        <div class="form-group">
+          <input type="file" id="prodFile" accept="image/*" aria-label="Upload product image" onchange="previewImage()"/>
+          <span class="error-message" id="fileError">File must be an image under 5MB</span>
+        </div>
+        <div class="form-group">
+          <img id="imagePreview" class="image-preview" alt="Image Preview"/>
+        </div>
+        <div class="form-group">
+          <input type="file" id="csvFile" accept=".csv" aria-label="Upload CSV file"/>
+          <span class="error-message" id="csvError">Please upload a valid CSV file</span>
+        </div>
+        <div class="form-actions">
+          <button onclick="addProduct()"><i class="fas fa-plus"></i> Add</button>
+          <button onclick="addProductsFromCSV()"><i class="fas fa-upload"></i> Upload CSV</button>
+          <button onclick="resetForm()"><i class="fas fa-undo"></i> Reset</button>
+        </div>
+      </div>
+      <div>
+        <h4>Existing Products</h4>
+        <ul>
+          ${products.map(p => `
+            <li>
+              ${p.name} (₹${p.price})
+              <button onclick="editProduct(${p.id})" aria-label="Edit ${p.name}"><i class="fas fa-edit"></i></button>
+              <button onclick="deleteProduct(${p.id})" aria-label="Delete ${p.name}"><i class="fas fa-trash"></i></button>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+      <button onclick="showAdminDashboard()">Back</button>
+      <button onclick="closeModal()">Cancel</button>
+    `;
+    document.getElementById("prodCategory").addEventListener("change", toggleNewCategoryInput);
+    document.getElementById("prodName").focus();
+  }
+
+  function showManageCouponsForm() {
+    document.getElementById("modalContent").innerHTML = `
+      <h3 id="modalTitle">Manage Coupons</h3>
+      <div class="form-group">
+        <h4>Add New Coupon</h4>
+        <div class="form-group">
+          <input type="text" id="couponCode" placeholder="Coupon Code (e.g., SAVE10)" aria-label="Coupon Code" required/>
+          <span class="error-message" id="couponCodeError">Please enter a valid coupon code</span>
+        </div>
+        <div class="form-group">
+          <select id="couponType" aria-label="Discount Type" onchange="toggleCouponValueInput()">
+            <option value="">Select Discount Type</option>
+            <option value="percentage">Percentage (%)</option>
+            <option value="flat">Flat Amount (₹)</option>
+          </select>
+          <span class="error-message" id="couponTypeError">Please select a discount type</span>
+        </div>
+        <div class="form-group">
+          <input type="number" id="couponValue" placeholder="Discount Value (e.g., 10 for 10% or ₹100)" min="0" aria-label="Discount Value" required/>
+          <span class="error-message" id="couponValueError">Please enter a valid discount value</span>
+        </div>
+        <div class="form-actions">
+          <button onclick="addCoupon()"><i class="fas fa-plus"></i> Add Coupon</button>
+          <button onclick="resetCouponForm()"><i class="fas fa-undo"></i> Reset</button>
+        </div>
+      </div>
+      <div>
+        <h4>Existing Coupons</h4>
+        <ul class="coupon-list">
+          ${Object.entries(coupons).map(([code, value]) => `
+            <li>
+              ${code} (${value < 1 ? `${value * 100}%` : `₹${value}`})
+              <button onclick="editCoupon('${code}')" aria-label="Edit ${code}"><i class="fas fa-edit"></i></button>
+              <button onclick="deleteCoupon('${code}')" aria-label="Delete ${code}"><i class="fas fa-trash"></i></button>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+      <button onclick="showAdminDashboard()">Back</button>
+      <button onclick="closeModal()">Cancel</button>
+    `;
+    document.getElementById("couponCode").focus();
+  }
+
+  function toggleCouponValueInput() {
+    const couponType = document.getElementById("couponType").value;
+    const couponValueInput = document.getElementById("couponValue");
+    if (couponType === "percentage") {
+      couponValueInput.placeholder = "Discount Value (e.g., 10 for 10%)";
+      couponValueInput.max = "100";
+    } else if (couponType === "flat") {
+      couponValueInput.placeholder = "Discount Value (e.g., 100 for ₹100)";
+      couponValueInput.removeAttribute("max");
+    } else {
+      couponValueInput.placeholder = "Discount Value";
+    }
+  }
+
+  function validateCouponForm() {
+    let isValid = true;
+    const code = document.getElementById("couponCode").value.trim().toUpperCase();
+    const type = document.getElementById("couponType").value;
+    const value = parseFloat(document.getElementById("couponValue").value);
+
+    document.getElementById("couponCodeError").style.display = code ? "none" : "block";
+    document.getElementById("couponTypeError").style.display = type ? "none" : "block";
+    document.getElementById("couponValueError").style.display = (value > 0 && (type !== "percentage" || value <= 100)) ? "none" : "block";
+
+    if (!code) {
+      document.getElementById("couponCode").classList.add("error");
+      isValid = false;
+    } else {
+      document.getElementById("couponCode").classList.remove("error");
+    }
+
+    if (!type) {
+      document.getElementById("couponType").classList.add("error");
+      isValid = false;
+    } else {
+      document.getElementById("couponType").classList.remove("error");
+    }
+
+    if (!(value > 0) || (type === "percentage" && value > 100)) {
+      document.getElementById("couponValue").classList.add("error");
+      document.getElementById("couponValueError").textContent = type === "percentage" ? "Percentage must be between 0 and 100" : "Please enter a valid discount value";
+      isValid = false;
+    } else {
+      document.getElementById("couponValue").classList.remove("error");
+    }
+
+    return { isValid, code, type, value };
+  }
+
+  function addCoupon() {
+    const { isValid, code, type, value } = validateCouponForm();
+    if (!isValid) {
+      showToast("Please fix the errors in the form", true);
+      return;
+    }
+
+    if (coupons[code]) {
+      showToast("Coupon code already exists", true);
+      document.getElementById("couponCode").classList.add("error");
+      document.getElementById("couponCodeError").textContent = "Coupon code already exists";
+      document.getElementById("couponCodeError").style.display = "block";
+      return;
+    }
+
+    coupons[code] = type === "percentage" ? value / 100 : value;
+    saveCoupons();
+    showToast(`Coupon ${code} added!`);
+    showManageCouponsForm();
+  }
+
+  function editCoupon(code) {
+    const value = coupons[code];
+    const isPercentage = value < 1;
+    document.getElementById("modalContent").innerHTML = `
+      <h3 id="modalTitle">Edit Coupon</h3>
+      <div class="form-group">
+        <input type="text" id="couponCode" value="${code}" disabled aria-label="Coupon Code"/>
+        <span class="error-message" id="couponCodeError"></span>
+      </div>
+      <div class="form-group">
+        <select id="couponType" aria-label="Discount Type" onchange="toggleCouponValueInput()">
+          <option value="percentage" ${isPercentage ? 'selected' : ''}>Percentage (%)</option>
+          <option value="flat" ${!isPercentage ? 'selected' : ''}>Flat Amount (₹)</option>
+        </select>
+        <span class="error-message" id="couponTypeError">Please select a discount type</span>
+      </div>
+      <div class="form-group">
+        <input type="number" id="couponValue" value="${isPercentage ? value * 100 : value}" min="0" ${isPercentage ? 'max="100"' : ''} aria-label="Discount Value"/>
+        <span class="error-message" id="couponValueError">Please enter a valid discount value</span>
+      </div>
+      <div class="form-actions">
+        <button onclick="updateCoupon('${code}')"><i class="fas fa-save"></i> Save</button>
+        <button onclick="showManageCouponsForm()">Back</button>
+      </div>
+    `;
+    toggleCouponValueInput();
+  }
+
+  function updateCoupon(originalCode) {
+    const { isValid, type, value } = validateCouponForm();
+    if (!isValid) {
+      showToast("Please fix the errors in the form", true);
+      return;
+    }
+
+    delete coupons[originalCode];
+    const code = document.getElementById("couponCode").value.trim().toUpperCase();
+    coupons[code] = type === "percentage" ? value / 100 : value;
+    saveCoupons();
+    showToast(`Coupon ${code} updated!`);
+    showManageCouponsForm();
+  }
+
+  function deleteCoupon(code) {
+    if (confirm(`Are you sure you want to delete the coupon ${code}?`)) {
+      delete coupons[code];
+      if (appliedCoupon && appliedCoupon.code === code) {
+        appliedCoupon = null;
+        saveCart();
+        renderCart();
+      }
+      saveCoupons();
+      showToast(`Coupon ${code} deleted!`);
+      showManageCouponsForm();
+    }
+  }
+
+  function resetCouponForm() {
+    document.getElementById("couponCode").value = "";
+    document.getElementById("couponType").value = "";
+    document.getElementById("couponValue").value = "";
+    document.querySelectorAll(".error-message").forEach(el => el.style.display = "none");
+    document.querySelectorAll(".error").forEach(el => el.classList.remove("error"));
+    showToast("Coupon form reset!");
+  }
+
+  function toggleNewCategoryInput() {
+    const categorySelect = document.getElementById("prodCategory");
+    const newCategoryInput = document.getElementById("newCategory");
+    newCategoryInput.style.display = categorySelect.value === "new" ? "block" : "none";
+  }
+
+  function previewImage() {
+    const imageUrl = document.getElementById("prodImage").value;
+    const file = document.getElementById("prodFile").files[0];
+    const preview = document.getElementById("imagePreview");
+    const imageUrlError = document.getElementById("imageUrlError");
+
+    if (file) {
+      if (!file.type.startsWith('image/') || file.size > 5 * 1024 * 1024) {
+        preview.style.display = "none";
+        document.getElementById("fileError").style.display = "block";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+        preview.style.display = "block";
+        document.getElementById("fileError").style.display = "none";
+      };
+      reader.readAsDataURL(file);
+    } else if (imageUrl) {
+      const urlPattern = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))/i;
+      if (!urlPattern.test(imageUrl)) {
+        preview.style.display = "none";
+        imageUrlError.style.display = "block";
+        return;
+      }
+      preview.src = imageUrl;
+      preview.style.display = "block";
+      imageUrlError.style.display = "none";
+    } else {
+      preview.style.display = "none";
+      imageUrlError.style.display = "none";
+      document.getElementById("fileError").style.display = "none";
+    }
+  }
+
+  function validateForm() {
+    let isValid = true;
+    const name = document.getElementById("prodName").value.trim();
+    const price = parseFloat(document.getElementById("prodPrice").value);
+    const categorySelect = document.getElementById("prodCategory").value;
+    const newCategory = document.getElementById("newCategory").value.trim();
+    const imageUrl = document.getElementById("prodImage").value;
+    const file = document.getElementById("prodFile").files[0];
+
+    document.getElementById("nameError").style.display = name ? "none" : "block";
+    document.getElementById("priceError").style.display = (price > 0) ? "none" : "block";
+    document.getElementById("categoryError").style.display = (categorySelect === "new" ? newCategory : categorySelect) ? "none" : "block";
+
+    if (!name) {
+      document.getElementById("prodName").classList.add("error");
+      isValid = false;
+    } else {
+      document.getElementById("prodName").classList.remove("error");
+    }
+
+    if (!(price > 0)) {
+      document.getElementById("prodPrice").classList.add("error");
+      isValid = false;
+    } else {
+      document.getElementById("prodPrice").classList.remove("error");
+    }
+
+    if (categorySelect === "new" && !newCategory) {
+      document.getElementById("newCategory").classList.add("error");
+      isValid = false;
+    } else {
+      document.getElementById("newCategory").classList.remove("error");
+    }
+
+    if (imageUrl && !/^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))/i.test(imageUrl)) {
+      document.getElementById("prodImage").classList.add("error");
+      document.getElementById("imageUrlError").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("prodImage").classList.remove("error");
+      document.getElementById("imageUrlError").style.display = "none";
+    }
+
+    if (file && (!file.type.startsWith('image/') || file.size > 5 * 1024 * 1024)) {
+      document.getElementById("prodFile").classList.add("error");
+      document.getElementById("fileError").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("prodFile").classList.remove("error");
+      document.getElementById("fileError").style.display = "none";
+    }
+
+    return isValid;
+  }
+
+  function addProduct() {
+    if (!validateForm()) {
+      showToast("Please fix the errors in the form", true);
+      return;
+    }
+
+    const name = sanitizeInput(document.getElementById("prodName").value);
+    const categorySelect = document.getElementById("prodCategory").value;
+    const newCategory = sanitizeInput(document.getElementById("newCategory").value.trim());
+    const category = categorySelect === "new" ? newCategory : categorySelect;
+    const price = parseInt(document.getElementById("prodPrice").value);
+    const description = sanitizeInput(document.getElementById("prodDesc").value.trim());
+    const imageUrl = sanitizeInput(document.getElementById("prodImage").value);
+    const file = document.getElementById("prodFile").files[0];
+
+    const reader = new FileReader();
+    reader.onloadend = function () {
+      const img = file ? reader.result : imageUrl || "https://via.placeholder.com/300x160?text=Product";
+      const newProduct = { id: Date.now(), name, category, price, description, image: img };
+      const existing = JSON.parse(localStorage.getItem("taskbotProducts")) || [];
+      existing.push(newProduct);
+      localStorage.setItem("taskbotProducts", JSON.stringify(existing));
+      showToast("Product added!");
+      showAddProductForm();
+    };
+
+    if (file) reader.readAsDataURL(file);
+    else reader.onloadend();
+  }
+
+  function addProductsFromCSV() {
+    const file = document.getElementById("csvFile").files[0];
+    if (!file || !file.name.endsWith('.csv')) {
+      document.getElementById("csvError").style.display = "block";
+      showToast("Please upload a valid CSV file", true);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const text = e.target.result;
+      const rows = text.split('\n').slice(1).filter(row => row.trim());
+      const existing = JSON.parse(localStorage.getItem("taskbotProducts")) || [];
+      let added = 0;
+
+      rows.forEach(row => {
+        const [name, category, price, description, image] = row.split(',').map(s => s.trim());
+        if (name && price && !isNaN(price) && price > 0) {
+          const newProduct = {
+            id: Date.now() + Math.random(),
+            name: sanitizeInput(name),
+            category: sanitizeInput(category || "Others"),
+            price: parseInt(price),
+            description: sanitizeInput(description || ""),
+            image: /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))/i.test(image) ? image : "https://via.placeholder.com/300x160?text=Product"
+          };
+          existing.push(newProduct);
+          added++;
+        }
+      });
+
+      localStorage.setItem("taskbotProducts", JSON.stringify(existing));
+      showToast(`Added ${added} products from CSV!`);
+      showAddProductForm();
+    };
+    reader.readAsText(file);
+  }
+
+  function resetForm() {
+    document.getElementById("prodName").value = "";
+    document.getElementById("prodCategory").value = "";
+    document.getElementById("newCategory").value = "";
+    document.getElementById("newCategory").style.display = "none";
+    document.getElementById("prodPrice").value = "";
+    document.getElementById("prodDesc").value = "";
+    document.getElementById("prodImage").value = "";
+    document.getElementById("prodFile").value = "";
+    document.getElementById("csvFile").value = "";
+    document.getElementById("imagePreview").style.display = "none";
+    document.querySelectorAll(".error-message").forEach(el => el.style.display = "none");
+    document.querySelectorAll(".error").forEach(el => el.classList.remove("error"));
+    showToast("Form reset!");
+  }
+
+  function editProduct(id) {
+    const product = products.find(p => p.id === id);
+    const categories = [...new Set(products.map(p => p.category || "Others"))];
+    document.getElementById("modalContent").innerHTML = `
+      <h3 id="modalTitle">Edit Product</h3>
+      <div class="form-group">
+        <input type="text" id="prodName" value="${product.name}" aria-label="Product Name" required/>
+        <span class="error-message" id="nameError">Please enter a product name</span>
+      </div>
+      <div class="form-group">
+        <select id="prodCategory" aria-label="Category">
+          <option value="">Select or Enter Category</option>
+          ${categories.map(c => `<option value="${c}" ${c === product.category ? 'selected' : ''}>${c}</option>`).join('')}
+          <option value="new">Add New Category</option>
+        </select>
+        <input type="text" id="newCategory" placeholder="New Category Name" style="display: ${product.category === 'new' ? 'block' : 'none'};" value="${product.category === 'new' ? product.category : ''}" aria-label="New Category"/>
+        <span class="error-message" id="categoryError">Please select or enter a category</span>
+      </div>
+      <div class="form-group">
+        <input type="number" id="prodPrice" value="${product.price}" min="1" aria-label="Price" required/>
+        <span class="error-message" id="priceError">Please enter a valid price (positive number)</span>
+      </div>
+      <div class="form-group">
+        <textarea id="prodDesc" rows="4" aria-label="Product Description">${product.description}</textarea>
+      </div>
+      <div class="form-group">
+        <input type="text" id="prodImage" value="${product.image}" aria-label="Image URL" oninput="previewImage()"/>
+        <span class="error-message" id="imageUrlError">Please enter a valid image URL</span>
+      </div>
+      <div class="form-group">
+        <input type="file" id="prodFile" accept="image/*" aria-label="Upload product image" onchange="previewImage()"/>
+        <span class="error-message" id="fileError">File must be an image under 5MB</span>
+      </div>
+      <div class="form-group">
+        <img id="imagePreview" class="image-preview" src="${product.image}" alt="Image Preview" style="display: block;"/>
+      </div>
+      <div class="form-actions">
+        <button onclick="updateProduct(${id})"><i class="fas fa-save"></i> Save</button>
+        <button onclick="showAddProductForm()">Back</button>
+      </div>
+    `;
+    document.getElementById("prodCategory").addEventListener("change", toggleNewCategoryInput);
+  }
+
+  function updateProduct(id) {
+    if (!validateForm()) {
+      showToast("Please fix the errors in the form", true);
+      return;
+    }
+
+    const name = sanitizeInput(document.getElementById("prodName").value);
+    const categorySelect = document.getElementById("prodCategory").value;
+    const newCategory = sanitizeInput(document.getElementById("newCategory").value.trim());
+    const category = categorySelect === "new" ? newCategory : categorySelect;
+    const price = parseInt(document.getElementById("prodPrice").value);
+    const description = sanitizeInput(document.getElementById("prodDesc").value.trim());
+    const imageUrl = sanitizeInput(document.getElementById("prodImage").value);
+    const file = document.getElementById("prodFile").files[0];
+
+    const reader = new FileReader();
+    reader.onloadend = function () {
+      const img = file ? reader.result : imageUrl || "https://via.placeholder.com/300x160?text=Product";
+      const updatedProduct = { id, name, category, price, description, image: img };
+      const existing = JSON.parse(localStorage.getItem("taskbotProducts")) || [];
+      const index = existing.findIndex(p => p.id === id);
+      if (index !== -1) existing[index] = updatedProduct;
+      else existing.push(updatedProduct);
+      localStorage.setItem("taskbotProducts", JSON.stringify(existing));
+      showToast("Product updated!");
+      showAddProductForm();
+    };
+
+    if (file) reader.readAsDataURL(file);
+    else reader.onloadend();
+  }
+
+  function deleteProduct(id) {
+    if (confirm(`Are you sure you want to delete this product?`)) {
+      const existing = JSON.parse(localStorage.getItem("taskbotProducts")) || [];
+      const updated = existing.filter(p => p.id !== id);
+      localStorage.setItem("taskbotProducts", JSON.stringify(updated));
+      showToast("Product deleted!");
+      loadProducts();
+      showAddProductForm();
+    }
+  }
+
+  // Keyboard navigation for modals
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+      closeReviewModal();
+      closeDescModal();
+    }
+  });
+
+  // Initialize
+  loadProducts();
+  loadCart();
+</script>
+</body>
+</html>
