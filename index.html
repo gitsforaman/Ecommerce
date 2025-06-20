@@ -439,6 +439,49 @@
       box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
     }
 
+
+.cart-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(90deg, #7c3aed, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cart-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+}
+
+.cart-btn-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ef4444;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+
     .modal {
       display: none;
       position: fixed;
@@ -696,6 +739,11 @@
   </div>
 </div>
 
+<button class="cart-btn" onclick="scrollToCart()" title="View Cart" aria-label="View cart">
+  <i class="fas fa-shopping-cart"></i>
+  <span class="cart-btn-count" id="cartBtnCount">0</span>
+</button>
+
 <div class="modal" id="reviewModal" role="dialog" aria-labelledby="reviewProductName">
   <div class="modal-content">
     <h3 id="reviewProductName">Add Review</h3>
@@ -736,7 +784,7 @@
     { id: 2, name: "Joy Skin Fruit Cream", category: "Face Cream", price: 8, description: "A refreshing moisturizer enriched with natural fruit extracts that nourish, hydrate, and rejuvenate your skin. This lightweight cream absorbs easily, leaving your skin soft, glowing, and healthy-looking.", image: "https://rukminim2.flixcart.com/image/832/832/xif0q/moisturizer-cream/2/l/3/800-skin-fruits-fruit-moisturizing-skin-cream-joy-cream-original-imah4m8wkwsyhwtr.jpeg?q=70&crop=false" },
     { id: 3, name: "Lakme 9to5 Fashion Matt Lipstick", category: "Lipsticks", price: 150, description: "A long‑wearing liquid matte with built‑in lip primer—delivers a smooth, crease‑free matte finish that lasts up to 14 hours. Lightweight, non‑sticky, enriched with Vitamin E and Argan oil to keep lips soft and nourished.", image: "https://cdn.fcglcdn.com/brainbees/images/products/zoom/11765982a.webp" },
     { id: 4, name: "White Tone Powder", category: "Powder", price: 55, description: "An ultra-fine talcum-based finishing powder that instantly brightens and evens out your complexion. It absorbs excess oil, minimizes pores and fine lines, and leaves a silky, matte finish with a light, fresh fragrance. Suitable for both men and women, ideal for quick touch-ups throughout the day.", image: "https://th.bing.com/th/id/OIP.ZeBhSHIog317jApS9NNIbwHaHa?rs=1&pid=ImgDetMain&cb=idpwebpc2" },
-    { id: 5, name: "Blue Valley - Hair Removal Cream", category: "Body Essentials", price: 35, description: "A quick-action depilatory cream for men and women that removes unwanted hair in just 3–6 minutes. Enriched with soothing Aloe Vera, Vitamin E, and chamomile or shea butter (depending on variant) to moisturize and calm skin, it delivers a smooth, irritation-free finish—ideal for arms, legs, underarms, bikini area, and full body", image: "https://5.imimg.com/data5/ECOM/Default/2023/9/343841953/XN/CW/VK/35312070/1691076512994-sku-0340-0-500x500.jpg" },
+    { id: 5, name: "Blue Valley - Hair Removal Cream", category: "Body Essentials", price: 45, description: "A quick-action depilatory cream for men and women that removes unwanted hair in just 3–6 minutes. Enriched with soothing Aloe Vera, Vitamin E, and chamomile or shea butter (depending on variant) to moisturize and calm skin, it delivers a smooth, irritation-free finish—ideal for arms, legs, underarms, bikini area, and full body", image: "https://5.imimg.com/data5/ECOM/Default/2023/9/343841953/XN/CW/VK/35312070/1691076512994-sku-0340-0-500x500.jpg" },
     { id: 6, name: "Veet - Body Wax Strips", category: "Body Essentials", price: 90, description: "Ready‑to‑use cold wax strips for arms, legs, underarms, and bikini line—remove hair as short as 1.5 mm and leave skin smooth for up to 28 days. No heating, no mess; pre-coated strips with an Easy‑Grip™ tab and finishing wipes for clean removal.", image: "https://www.netmeds.com/images/product-v1/600x600/1155347/veet_professional_half_body_wax_strips_normal_skin_8s_with_perfect_finishing_2_s_796794_0_0.jpg" },
     { id: 7, name: "Oxylife - Bleach Cream", category: "Face Cream", price: 48, description: "A fast-acting facial bleach using patented “Oxysphere” German technology to release active oxygen during application. It gently lightens facial hair and addresses five skincare concerns—dark spots, uneven tone, sun tan, dead skin cells, and dullness—while being enriched with soothing ingredients like Vitamin E, glycerine, aloe vera, and post-bleach serum for nourished, radiant skin in just ~15 minutes.", image: "https://images-na.ssl-images-amazon.com/images/I/71zcfXylNYL._SX679_.jpg" },
     { id: 8, name: "Fair & Lovely - BB Cream", category: "Face Cream", price: 45, description: "A lightweight BB cream that blends skincare and makeup—delivers a natural glow, medium coverage for dark spots and blemishes, a matte non‑oily finish, and SPF 15 protection. Suitable for daily wear across skin types.", image: "https://th.bing.com/th/id/R.9c288eaf5202bff13b0c495292e6d398?rik=PxIuy6IrghWAkg&riu=http%3a%2f%2fkartwalk.in%2fcdn%2fshop%2fproducts%2fUntitled-17_8c46cffb-80bf-44b8-b319-425e0c2dbf8d.png%3fv%3d1708633533&ehk=GEY36R4%2f5Ri8I%2bA8xed1FlX7HhVjTYq%2fHOOjfZlTYk8%3d&risl=&pid=ImgRaw&r=0" },
@@ -744,9 +792,10 @@
     { id: 10, name: "Lakme 9to5 Matte Lapstick", category: "Lipsticks", price: 150, description: "A creamy matte lipstick with a built-in primer giving intense color payoff in one swipe, a satin‑smooth finish, and up to 14 hours of wear. Enriched with jojoba oil, olive oil, Vitamin E and SPF 15, it's comfortable, non‑drying, and perfect for work-to-weekend wear.", image: "https://th.bing.com/th/id/R.3e90195ad6da426cba2795a36d6bd63a?rik=DvQfcEY0ROAd9Q&riu=http%3a%2f%2fdazzlinggloss.co.za%2fcdn%2fshop%2fproducts%2fberrybase2.jpg%3fv%3d1675793774&ehk=jG1iKzwBw2vfj94q7SYPlXHRKhgk38ALAPN2Vj7Ulrw%3d&risl=&pid=ImgRaw&r=0" },
     { id: 11, name: "Max Women’s Body Razor", category: "Body Essentials", price: 15, description: "A single-blade, disposable body and bikini razor designed for women’s grooming. Features an ergonomic handle, platinum-coated stainless steel blade, and a protective comb to help guide hair while minimizing irritation. Safe, precise, and ideal for underarms, legs, and bikini areas", image: "https://5.imimg.com/data5/SELLER/Default/2021/9/EX/PP/PK/90321857/1-500x500.jpg" },
     { id: 12, name: "Nature's Soft Touch - Hair Removal Cream", category: "Body Essentials", price: 40, description: "A fast-acting depilatory cream (3–6 min) that removes even thick hair, leaving skin silky smooth for days. Enriched with glycerin plus variations like Aloe Vera, Diamond sparkle, or Gold for added glow and moisture. Safe for arms, legs, underarms, bikini line, and stomach, with antiseptic, soothing properties for all skin types.", image: "https://media6.ppl-media.com/tr:h-750,w-750,c-at_max,dpr-2/static/img/product/324087/nature-s-essence-soft-touch-hair-removal-cream-diamond-50-g-93_1_display_1689162936_4d7769a3.jpg" },
-    { id: 13, name: "Ayur Herbal - Deep Pore Cleansing Milk", category: "Face Cream", price: 55, description: "A gentle, herbal cleansing milk infused with aloe vera, cucumber, and rose extracts. It deeply removes dirt, makeup, and impurities while soothing and refreshing normal to oily skin—leaving it clean, soft, and radiant.", image: "https://m.media-amazon.com/images/I/41CLGxhPGsL._SL1000_.jpg" },
-    { id: 14, name: "Ayur Herbal - Skin Toner", category: "Face Cream", price: 65, description: "An alcohol-free, herbal toner with aloe vera, rose water, and mint extracts. It hydrates, balances pH, tightens pores, and soothes skin—offering a refreshing, cooling cleanse suitable for all skin types.", image: "https://m.media-amazon.com/images/I/61gnt77TNWL._SL1000_.jpg" },
+    { id: 13, name: "Ayur Herbal - Deep Pore Cleansing Milk", category: "Skin", price: 55, description: "A gentle, herbal cleansing milk infused with aloe vera, cucumber, and rose extracts. It deeply removes dirt, makeup, and impurities while soothing and refreshing normal to oily skin—leaving it clean, soft, and radiant.", image: "https://m.media-amazon.com/images/I/41CLGxhPGsL._SL1000_.jpg" },
+    { id: 14, name: "Ayur Herbal - Skin Toner", category: "Skin", price: 65, description: "An alcohol-free, herbal toner with aloe vera, rose water, and mint extracts. It hydrates, balances pH, tightens pores, and soothes skin—offering a refreshing, cooling cleanse suitable for all skin types.", image: "https://m.media-amazon.com/images/I/61gnt77TNWL._SL1000_.jpg" },
     { id: 15, name: "Saree Fall - Cotton", category: "Clothing", price: 12, description: "A strip of sturdy cotton (or terry-cotton), typically 5 cm wide and ~2–2.5 m long, stitched along the saree’s inner hem. It adds weight for graceful drape, prevents transparency and tear-through, and protects the saree edge from wear and tear.", image: "https://images.herzindagi.info/image/2022/Dec/saree-fall.jpg" },
+    { id: 16, name: "Blue Heaven Kajal", category: "Kajal", price: 35, description: "Blue Heaven Kajal is a popular Indian eye‑liner pencil known for its richly pigmented, smooth glide and smudge‑resistant formula. Many variants—such as the 24‑hour stay, 2× Intense (with aloe vera), and lead‑free classic—offer long wear, water resistance, and nourishing ingredients like vitamin E and ginkgo extract.", image: "https://www.desiclik.com/images/P/6753e5d6d9de21fc00968852d47f697dd28e585a7a393e802e7fe1b0b60fb984.jpg" },
   ];
 
   let products = [], cart = [], appliedCoupon = null;
@@ -913,6 +962,15 @@
     return { subtotal, discount, total };
   }
 
+  function scrollToCart() {
+  document.querySelector('.cart-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+function updateCartButtonCount() {
+  const cartBtnCount = document.getElementById("cartBtnCount");
+  cartBtnCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+}
+
   function renderCart() {
     const cartItems = document.getElementById("cartItems");
     const cartCount = document.getElementById("cartCount");
@@ -925,6 +983,8 @@
     const emptyCartMessage = document.getElementById("emptyCartMessage");
     const clearCartBtn = document.getElementById("clearCartBtn");
     const whatsappOrderBtn = document.getElementById("whatsappOrderBtn");
+    updateCartButtonCount();
+    
 
     if (cart.length === 0) {
       cartItems.innerHTML = '';
